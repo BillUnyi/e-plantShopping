@@ -2,14 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './ProductList.css'
 import CartItem from './CartItem';
-import addItem from './CartSlice';
+import {addItem} from './CartSlice';
 function ProductList({ onHomeClick }) {
-    const [showCart, setShowCart] = useState(false);
+    const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({});
-    const calculateTotalQuantity = () => {
-        return CartItems ? CartItems.reduce((total, item) => total + item.quantity, 0) : 0;
-    };
+    const [cart, setCart] = useState([]); // State to store the items added to the cart
+    const dispatch = useDispatch();
+    const cartItems=useSelector(state => state.cart.items);
+    useEffect(() => {
+    }, []);
+    const alreadyInCart = (itemName) => {
+        return cartItems.some((item) => item.name === itemName);
+    }
+    const handleAddToCart = (item) => {
+        console.log("clicked");
+        dispatch(addItem(item));
+    }
+    const totalItems = () => {
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
+    }
 
     const plantsArray = [
         {
@@ -239,14 +250,6 @@ function ProductList({ onHomeClick }) {
         textDecoration: 'none',
     }
 
-    const handleAddToCart = (product) => {
-        dispatch(addItem(product)); // Dispatch the action to add the product to the cart (Redux action)
-        
-        setAddedToCart((prevState) => ({ // Update the local state to reflect that the product has been added
-            ...prevState, // Spread the previous state to retain existing entries
-            [product.name]: true, // Set the current product's name as a key with value 'true' to mark it as added
-        }));
-    };
 
     const handleHomeClick = (e) => {
         e.preventDefault();
@@ -289,6 +292,7 @@ function ProductList({ onHomeClick }) {
                     <div>
                         <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
                             <h1 className='cart'>
+                                <label style={{zIndex:1, position:"fixed", fontSize:"1.5rem", cursor:"pointer"}}>{totalItems()}</label>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
                                     <rect width="156" height="156" fill="none"></rect>
                                     <circle cx="80" cy="216" r="12"></circle>
