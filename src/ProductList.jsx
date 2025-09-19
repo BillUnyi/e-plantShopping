@@ -15,7 +15,6 @@ function ProductList({ onHomeClick }) {
         return cartItems.some((item) => item.name === itemName);
     }
     const handleAddToCart = (item) => {
-        console.log("clicked");
         dispatch(addItem(item));
     }
     const totalItems = () => {
