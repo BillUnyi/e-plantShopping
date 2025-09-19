@@ -292,7 +292,7 @@ function ProductList({ onHomeClick }) {
                     <div>
                         <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
                             <h1 className='cart'>
-                                <label style={{zIndex:1, position:"fixed", fontSize:"1.5rem", cursor:"pointer"}}>{totalItems()}</label>
+                                <label style={{zIndex:1, position:"relative", top:"20px", left:"40px", fontSize:"1.5rem", cursor:"pointer"}}>{totalItems()}</label>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
                                     <rect width="156" height="156" fill="none"></rect>
                                     <circle cx="80" cy="216" r="12"></circle>
@@ -325,9 +325,10 @@ function ProductList({ onHomeClick }) {
                                         <div className="product-cost">${plant.cost}</div> {/* Display plant cost */}
                                         <button
                                             className="product-button"
+                                            style={{backgroundColor:alreadyInCart(plant.name)?"gray":"#615EFC"}} disabled={alreadyInCart(plant.name)? true:false} 
                                             onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
                                         >
-                                            Add to Cart
+                                            {alreadyInCart(plant.name)?("Added to Cart") : ("Add to Cart")}
                                         </button>
                                     </div>
                                 ))}
